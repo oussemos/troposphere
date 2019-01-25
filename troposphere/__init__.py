@@ -13,9 +13,9 @@ import types
 
 from . import validators
 
-__version__ = "2.3.4"
+__version__ = "2.4.1"
 
-# constants for DeletionPolicy
+# constants for DeletionPolicy and UpdateReplacePolicy
 Delete = 'Delete'
 Retain = 'Retain'
 Snapshot = 'Snapshot'
@@ -94,9 +94,10 @@ class BaseAWSObject(object):
         self.do_validation = validation
         # Cache the keys for validity checks
         self.propnames = self.props.keys()
-        self.attributes = ['DependsOn', 'DeletionPolicy',
-                           'Metadata', 'UpdatePolicy',
-                           'Condition', 'CreationPolicy']
+        self.attributes = [
+            'Condition', 'CreationPolicy', 'DeletionPolicy', 'DependsOn',
+            'Metadata', 'UpdatePolicy', 'UpdateReplacePolicy',
+        ]
 
         # try to validate the title if its there
         if self.title:
@@ -536,12 +537,18 @@ class Tags(AWSHelperFn):
                 raise(TypeError, "Tags needs to be either kwargs or dict")
             tag_dict = args[0]
 
+        def add_tag(tag_list, k, v):
+            tag_list.append({'Key': k, 'Value': v, })
+
         self.tags = []
-        for k, v in sorted(tag_dict.iteritems()):
-            self.tags.append({
-                'Key': k,
-                'Value': v,
-            })
+
+        # Detect and handle non-string Tag items which do not sort in Python3
+        if all(isinstance(k, basestring) for k in tag_dict):
+            for k, v in sorted(tag_dict.items()):
+                add_tag(self.tags, k, v)
+        else:
+            for k, v in tag_dict.items():
+                add_tag(self.tags, k, v)
 
     # allow concatenation of the Tags object via '+' operator
     def __add__(self, newtags):
