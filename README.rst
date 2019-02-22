@@ -202,6 +202,7 @@ Currently supported AWS resource types
 - AWS::ElasticLoadBalancingV2
 - AWS::Elasticsearch
 - AWS::Events
+- AWS::FSx
 - AWS::Glue
 - AWS::GuardDuty
 - AWS::IAM
@@ -212,6 +213,7 @@ Currently supported AWS resource types
 - AWS::KMS
 - AWS::Kinesis
 - AWS::KinesisAnalytics
+- AWS::KinesisAnalyticsV2
 - AWS::KinesisFirehose
 - AWS::Lambda
 - AWS::Logs
