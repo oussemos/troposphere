@@ -13,7 +13,7 @@ import types
 
 from . import validators
 
-__version__ = "2.4.5"
+__version__ = "2.4.6"
 
 # constants for DeletionPolicy and UpdateReplacePolicy
 Delete = 'Delete'
@@ -512,6 +512,7 @@ Partition = Ref(AWS_PARTITION)
 Region = Ref(AWS_REGION)
 StackId = Ref(AWS_STACK_ID)
 StackName = Ref(AWS_STACK_NAME)
+URLSuffix = Ref(AWS_URL_SUFFIX)
 
 
 class Condition(AWSHelperFn):
